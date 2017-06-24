@@ -23,7 +23,7 @@ sub extract_subs
 		
 		if    (m~[^@]+@[^@]+~)       { $subs->{EMAIL} = $_ }
 		elsif (m~^https?://github~)  { $subs->{URL}   = $_ }
-		else 				         { $subs->{NAME}  = $_ }
+		else						 { $subs->{NAME}  = $_ }
 			
 	}
 	
