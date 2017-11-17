@@ -1,17 +1,25 @@
 #!/usr/bin/perl
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRAGMAS
+
 use 5.10.1;
 use warnings;
 use strict;
 $|++;
 
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ VARS
+
 my $subs = {};
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INIT
 
 scalar(@ARGV) == 3
 	? &extract_subs()
 	: (die "Need a URL, E-Mail & Name!\n");
 	
-	
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ FUNC
+
 # Extract Subsitutions
 sub extract_subs
 {
@@ -23,14 +31,13 @@ sub extract_subs
 		
 		if    (m~[^@]+@[^@]+~)       { $subs->{EMAIL} = $_ }
 		elsif (m~^https?://github~)  { $subs->{URL}   = $_ }
-		else { $subs->{NAME}  = $_ }
+		elsif 						 { $subs->{NAME}  = $_ }
 			
 	}
 	
 	# Check if everything is there, abort if not.
 	for (qw~EMAIL URL NAME~)
 	{
-		
 		
 		die "Incorrect ${_} detected! Aborting!\n" 
 			unless $subs->{$_} && $subs->{$_} =~ m~^.{2,}~;
@@ -45,7 +52,15 @@ sub extract_subs
 sub run_cmds
 {
 
-	chomp (my $url = shift);
+	# chomp (my $url = shift);
+	
+	# Create additional Goodness
+	
+	# .gitignore
+	system qq~touch .gitignore && echo '.DS_Store' | tee -a .gitignore~;
+		
+	# README.md
+	system q~perl -e 'print scalar localtime' > README.md~
 	
 	while (<DATA>)
 	{
@@ -61,6 +76,8 @@ sub run_cmds
 		
 	}
 }
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DB
 
 __END__
 git init
