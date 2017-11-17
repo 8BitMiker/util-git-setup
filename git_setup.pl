@@ -31,7 +31,7 @@ sub extract_subs
 		
 		if    (m~[^@]+@[^@]+~)       { $subs->{EMAIL} = $_ }
 		elsif (m~^https?://github~)  { $subs->{URL}   = $_ }
-		elsif 						 { $subs->{NAME}  = $_ }
+		else 						 { $subs->{NAME}  = $_ }
 			
 	}
 	
@@ -60,7 +60,7 @@ sub run_cmds
 	system qq~touch .gitignore && echo '.DS_Store' | tee -a .gitignore~;
 		
 	# README.md
-	system q~perl -e 'print scalar localtime' > README.md~
+	system q~perl -e 'print scalar localtime' > README.md~;
 	
 	while (<DATA>)
 	{
